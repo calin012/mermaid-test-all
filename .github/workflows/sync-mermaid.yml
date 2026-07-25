@@ -1,0 +1,33 @@
+name: Sync Mermaid source into README
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "diagrams/**/*.mmd"
+      - "scripts/sync_mermaid.py"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Sync diagrams into README
+        run: python scripts/sync_mermaid.py
+
+      - name: Commit README if changed
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: sync mermaid diagram into README [skip ci]"
+          file_pattern: "README.md"

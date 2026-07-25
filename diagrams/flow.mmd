@@ -1,0 +1,8 @@
+flowchart TD
+    A[Start] --> B{Is it rendered?}
+    B -- Yes, natively --> C[GitHub compiled the code block]
+    B -- Rendered via Action --> D[Workflow generated a PNG]
+    B -- Synced via Action --> F[Workflow updated this native block]
+    C --> E[Compare results]
+    D --> E[Compare results]
+    F --> E[Compare results]
